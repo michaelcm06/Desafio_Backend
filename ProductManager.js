@@ -1,95 +1,87 @@
+const fs = require('fs');
+
 class ProductManager {
-    constructor() {
+    constructor(path) {
+        this.path = path;
         this.products = [];
-        this.nextProductId = 1;
+        this.loadProducts();
+    }
+
+    loadProducts() {
+        if (fs.existsSync(this.path)) {
+            const fileContent = fs.readFileSync(this.path, 'utf8');
+            this.products = JSON.parse(fileContent);
+        }
+    }
+
+    saveProducts() {
+        fs.writeFileSync(this.path, JSON.stringify(this.products, null, 4));
     }
 
     addProduct(product) {
-        if (!this.isProductValid(product)) {
-            console.error("Invalid product data");
-            return;
-        }
-
-        if (this.isCodeDuplicate(product.code)) {
-            console.error("Product code already exists");
-            return;
-        }
-
-        product.id = this.nextProductId++;
+        product.id = this.products.length + 1;
         this.products.push(product);
-        console.log("Producto añadido:", product);
+        this.saveProducts();
     }
 
     getProducts() {
         return this.products;
     }
 
-    getProductById(id) {
-        const product = this.products.find(product => product.id === id);
-        if (product) {
-            return product;
-        } else {
-            console.error("Product not found");
+    getProductById(productId) {
+        return this.products.find(product => product.id === productId);
+    }
+
+    updateProduct(productId, updatedFields) {
+        const productToUpdate = this.products.find(product => product.id === productId);
+        if (productToUpdate) {
+            Object.assign(productToUpdate, updatedFields);
+            this.saveProducts();
+            return true;
         }
+        return false;
     }
 
-    isProductValid(product) {
-        return (
-            product.title &&
-            product.description &&
-            product.price &&
-            product.thumbnail &&
-            product.code &&
-            product.stock !== undefined
-        );
-    }
-
-    isCodeDuplicate(code) {
-        return this.products.some(product => product.code === code);
+    deleteProduct(productId) {
+        this.products = this.products.filter(product => product.id !== productId);
+        this.saveProducts();
     }
 }
 
-// Test
-const productManager = new ProductManager();
+module.exports = ProductManager;
 
-const initialProducts = productManager.getProducts();
-console.log("Initial products:", initialProducts); 
+const TestProductManager = require('./ProductManager');
 
-productManager.addProduct({
-    title: "producto prueba",
-    description: "Este es un producto prueba",
-    price: 200,
-    thumbnail: "Sin imagen",
-    code: "abc123",
-    stock: 25
-});
+function runTests() {
+    const productManager = new TestProductManager('products.json');
 
-productManager.addProduct({
-    title: "producto prueba",
-    description: "Este es un producto prueba",
-    price: 300,
-    thumbnail: "Sin imagen",
-    code: "abc456",
-    stock: 5
-});
+    // Prueba 1: Verificar si getProducts devuelve un arreglo vacío al principio
+    console.log('Prueba 1:', productManager.getProducts());
 
-const productsAfterAdding = productManager.getProducts();
-console.log("Products after adding:", productsAfterAdding); 
+    // Prueba 2: Agregar un nuevo producto y verificar si se agrega correctamente
+    const newProduct = {
+        title: 'producto prueba',
+        description: 'Este es un producto prueba',
+        price: 200,
+        thumbnail: 'Sin imagen',
+        code: 'abc123',
+        stock: 25
+    };
+    productManager.addProduct(newProduct);
+    console.log('Prueba 2:', productManager.getProducts());
 
-productManager.addProduct({
-    title: "producto repetido",
-    description: "Este es otro producto repetido",
-    price: 150,
-    thumbnail: "No hay imagen",
-    code: "abc123",
-    stock: 10
-});
+    // Prueba 3: Obtener el producto recién agregado por su ID
+    const productId = 1; // El ID puede variar dependiendo de la implementación
+    console.log('Prueba 3:', productManager.getProductById(productId));
 
-const productsAfterDuplicationAttempt = productManager.getProducts();
-console.log("Products after duplication attempt:", productsAfterDuplicationAttempt);
+    // Prueba 4: Actualizar el producto con un nuevo precio
+    const updatedFields = { price: 250 };
+    productManager.updateProduct(productId, updatedFields);
+    console.log('Prueba 4:', productManager.getProducts());
 
-const productById = productManager.getProductById(1);
-console.log("Product by ID (valid):", productById);
+    // Prueba 5: Eliminar el producto y verificar si se ha eliminado correctamente
+    productManager.deleteProduct(productId);
+    console.log('Prueba 5:', productManager.getProducts());
+}
 
-const productNotFound = productManager.getProductById(999); 
-console.log("Product by ID (invalid):", productNotFound);
+runTests();
