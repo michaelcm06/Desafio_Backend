@@ -1,0 +1,93 @@
+[
+    {
+        "title": "Hills Prescription Diet Gatos",
+        "description": "Hills Prescription Diet Gatos Kidney Care k/d 4 Lb",
+        "price": 250,
+        "thumbnail": "Sin imagen",
+        "code": "abc123",
+        "stock": 25,
+        "id": "1"
+    },
+    {
+        "title": "Hills Science Diet Gatos",
+        "description": "Hills Science Diet Gatos Adultos Optimal Care 16 Lb",
+        "price": 353000,
+        "thumbnail": "Sin imagen",
+        "code": "abc124",
+        "stock": 25,
+        "id": "2"
+    },
+    {
+        "title": "Agility Gold Gatos",
+        "description": "Agility Gold Gatos Sin Granos 7 Kg",
+        "price": 107300,
+        "thumbnail": "Sin imagen",
+        "code": "abc125",
+        "stock": 25,
+        "id": "3"
+    },
+    {
+        "title": "Agility Gold Gatos",
+        "description": "Agility Gold Gatos Sin Granos 7 Kg",
+        "price": 107300,
+        "thumbnail": "Sin imagen",
+        "code": "abc126",
+        "stock": 25,
+        "id": "4"
+    },
+    {
+        "title": "Agility Gold Gatos",
+        "description": "Agility Gold Gatos Sin Granos 7 Kg",
+        "price": 107300,
+        "thumbnail": "Sin imagen",
+        "code": "abc127",
+        "stock": 25,
+        "id": "5"
+    },
+    {
+        "title": "Agility Gold Gatos",
+        "description": "Agility Gold Gatos Sin Granos 7 Kg",
+        "price": 107300,
+        "thumbnail": "Sin imagen",
+        "code": "abc128",
+        "stock": 25,
+        "id": "6"
+    },
+    {
+        "title": "Agility Gold Gatos",
+        "description": "Agility Gold Gatos Sin Granos 7 Kg",
+        "price": 107300,
+        "thumbnail": "Sin imagen",
+        "code": "abc129",
+        "stock": 25,
+        "id": "7"
+    },
+    {
+        "title": "Agility Gold Gatos",
+        "description": "Agility Gold Gatos Sin Granos 7 Kg",
+        "price": 107300,
+        "thumbnail": "Sin imagen",
+        "code": "abc131",
+        "stock": 25,
+        "id": "8"
+    },
+    {
+        "title": "Agility Gold Gatos",
+        "description": "Agility Gold Gatos Sin Granos 7 Kg",
+        "price": 107300,
+        "thumbnail": "Sin imagen",
+        "code": "abc132",
+        "stock": 25,
+        "id": "9"
+    },
+    {
+        "title": "Agility Gold Gatos",
+        "description": "Agility Gold Gatos Sin Granos 7 Kg",
+        "price": 107300,
+        "thumbnail": "Sin imagen",
+        "code": "abc133",
+        "stock": 25,
+        "id": "10"
+    }
+
+]
