@@ -1,41 +1,51 @@
-const express = require('express');
-const ProductManager = require('./ProductManager');
+import __dirname from './utils.js';
+import path from 'path';
+import express from 'express';
+import {engine} from 'express-handlebars';
+import { router as vistasRouter } from './routes/view.router.js';
+import {Server} from 'socket.io'
 
-const app = express();
-const PORT = 8080;
+const PORT=3000;
 
-const productManager = new ProductManager('products.json');
+const app=express();
 
-app.get('/products', async (req, res) => {
-  try {
-    const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
-    const products = await productManager.getAllProducts();
+const listaDeProductos = [
+    { id: 1, nombre: 'Producto 1', descripcion: 'Descripción del Producto 1', precio: 10.99 },
+    { id: 2, nombre: 'Producto 2', descripcion: 'Descripción del Producto 2', precio: 19.99 },
+    { id: 3, nombre: 'Producto 3', descripcion: 'Descripción del Producto 3', precio: 5.99 },
+  ];
 
-    if (limit) {
-      res.json(products.slice(0, limit));
-    } else {
-      res.json(products);
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 
-app.get('/products/:pid', async (req, res) => {
-  try {
-    const products = await productManager.getAllProducts();
-    const product = products.find(p => p.id === req.params.pid);
+  app.engine('handlebars', engine());
+  app.set('view engine', 'handlebars');
+  app.set('views', path.join(__dirname,'/views'));
+  
+  app.use(express.json());
+  app.use(express.urlencoded({extended:true}));
+  
+  app.use(express.static(path.join(__dirname,'/public')));
+  
+  app.get('/',(req,res)=>{
+      
+      res.setHeader('Content-Type','application/json');
+      res.status(200).json(listaDeProductos);
+  });
+  
+  app.get('/realTimeProducts',(req,res)=>{
+      
 
-    if (product) {
-      res.json(product);
-    } else {
-      res.status(404).json({ error: 'Producto No Existe' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+  });
+  
+  app.use('/',vistasRouter)
+  
+  const serverExpress=app.listen(PORT,()=>{
+      console.log(`Server escuchando en puerto ${PORT}`);
+  });
+  
+  const serverSocket=new Server(serverExpress)
+  
+  serverSocket.on('connection',socket=>{
+      console.log(`Se ha conectado un cliente con id ${socket.id}`)
+  
+  })
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
