@@ -1,29 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Productos</title>
-    <!-- Agrega enlaces a tus estilos CSS aquí si es necesario -->
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Lista de Productos</h1>
-
-        <p>Esta es la página de inicio de la lista de productos. Aquí puedes ver todos los productos disponibles:</p>
-
-        <!-- Lista de productos -->
-        <ul id="productList" class="list-group">
-            {{#each productos}}
-            <li class="list-group-item">
-                <strong>{{this.nombre}}</strong> - {{this.descripcion}} - ${{this.precio}}
-            </li>
-            {{/each}}
-        </ul>
-    </div>
-
-    <!-- JavaScript para mostrar la lista de productos y manejar eventos -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/client.js"></script>
-</body>
-</html>
+<h1>Lista de Productos</h1>
+<ul id="productList">
+    {{#each productos}}
+    <li>{{this.nombre}} - {{this.descripcion}} - ${{this.precio}}</li>
+    {{/each}}
+</ul>
