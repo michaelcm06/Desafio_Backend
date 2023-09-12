@@ -1,13 +1,13 @@
 
 const socket = io();
 
-// Escuchar eventos del servidor
+
 socket.on('productos', (productos) => {
-  // Llamar a una función para actualizar la lista de productos en la interfaz de usuario
+
   updateProductList(productos);
 });
 
-// Función para actualizar la lista de productos en la interfaz de usuario
+
 function updateProductList(productos) {
   const productList = document.getElementById('productList');
   productList.innerHTML = '';
@@ -29,30 +29,29 @@ function updateProductList(productos) {
 }
 
 
-// Manejar el envío de un nuevo producto desde el formulario
+
 const agregarProductoForm = document.getElementById('agregarProductoForm');
 agregarProductoForm.addEventListener('submit', () => {
-  // Evitar que se realice la acción por defecto del formulario (recargar la página)
+
   event.preventDefault();
 
   const nombre = document.getElementById('nombre').value;
   const descripcion = document.getElementById('descripcion').value;
   const precio = parseFloat(document.getElementById('precio').value);
 
-  // Enviar el nuevo producto al servidor a través de WebSocket
+
   socket.emit('nuevoProducto', { nombre, descripcion, precio });
 
-  // Limpiar los campos del formulario después de enviar
   document.getElementById('nombre').value = '';
   document.getElementById('descripcion').value = '';
   document.getElementById('precio').value = '';
 });
-// Manejar el clic en el botón "Eliminar" para eliminar un producto
+
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('eliminarProducto')) {
     const productoId = e.target.dataset.id;
 
-    // Enviar el ID del producto a eliminar al servidor a través de WebSocket
+
     socket.emit('eliminarProducto', productoId);
   }
 });
