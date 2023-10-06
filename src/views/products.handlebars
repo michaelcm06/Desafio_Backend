@@ -1,0 +1,54 @@
+<h1>Lista de Productos</h1>
+
+
+<ul>
+  {{#each payload}}
+    <li>
+      <h2>{{name}}</h2>
+      <p>Precio: ${{price}}</p>
+      <p>Categoria: {{category}}</p>
+      <button class="add-to-cart" data-product-id="{{_id}}">Agregar al carrito</button>
+    </li>
+  {{/each}}
+</ul>
+<ul class="menu">
+
+<a href="/products?pagina=1">Pág.1</a>
+<div class="cart" data-cart-id="1">
+{{#if hasPrevPage}}
+<li>
+<a href="/products?pagina={{prevPage}}">Prev.Pág.</a>
+</li>
+{{else}}
+<li>
+<span>Prev.Pág.</span>
+</li>
+{{/if}}
+
+{{#if hasNextPage}}
+<li>
+<a href="/products?pagina={{nextPage}}">Next.Pág.</a>
+</li>
+{{else}}
+<li>
+<span>Next.Pág.</span>
+</li>
+{{/if}}
+
+<a href="/products?pagina={{totalPages}}">Ult.Pág</a>
+</div>
+<li>
+<a href="/carts">Carrito de Compras</a>
+</li>
+<li>
+<a href="/">Home</a>
+</li>
+</ul>
+
+
+<script>
+  // Inicializar cartId usando una variable global
+  const cartId = "{{cartId}}";
+  const productId = "{{productId}}";
+</script>
+<script src="/js/main.js"></script>
